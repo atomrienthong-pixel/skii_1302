@@ -18,12 +18,31 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int hp;
-    public int HP { get { return hp; } set { hp = value; } }
+    public int HP
+    {
+        get { return hp; }
+        set
+        {
+            int damage = hp - value;
+            hp = value;
+
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ShowHP(hp);
+
+                if (damage > 0)
+                    UIManager.Instance.ShowDamage(damage);
+            }
+        }
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         moveActopn = InputSystem.actions.FindAction("Move");
         rb = GetComponent<Rigidbody>();
+
+        if (UIManager.Instance != null)
+            UIManager.Instance.ShowHP(hp);
     }
 
     // Update is called once per frame
