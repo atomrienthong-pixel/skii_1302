@@ -8,26 +8,15 @@ public class TreeObstacle : MonoBehaviour
     [SerializeField]
     private int damage = 1;
 
-    // กันชนซ้ำรัวๆ ตอนผู้เล่นถูกับต้นไม้
-    [SerializeField]
-    private float hitCooldown = 0.5f;
-
     [SerializeField]
     private Renderer treeRenderer;
 
     private Color originalColor;
-    private float lastHitTime = float.NegativeInfinity;
 
     void Start()
     {
         if (treeRenderer == null)
             treeRenderer = GetComponentInChildren<Renderer>();
-
-        if (treeRenderer == null)
-        {
-            Debug.LogWarning("TreeObstacle: ไม่เจอ Renderer ต้นไม้จะไม่เปลี่ยนสีตอนชน", this);
-            return;
-        }
 
         originalColor = treeRenderer.material.color;
     }
@@ -57,21 +46,13 @@ public class TreeObstacle : MonoBehaviour
     private void HandleEnter(GameObject other)
     {
         Player player = other.GetComponentInParent<Player>();
-        if (player == null || player.IsDead)
+        if (player == null)
             return;
 
-        if (Time.time - lastHitTime < hitCooldown)
-            return;
-
-        lastHitTime = Time.time;
-
-        if (treeRenderer != null)
-            treeRenderer.material.color = hitColor;
-
+        treeRenderer.material.color = hitColor;
         player.HP -= damage;
-
-        if (UIManager.Instance != null)
-            UIManager.Instance.ShowNotiText($"Hurt -{damage}");
+        if (UIManger.instance != null)
+            UIManger.instance.ShowNotiText($"Hurt -{damage}");
     }
 
     private void HandleExit(GameObject other)
@@ -79,7 +60,6 @@ public class TreeObstacle : MonoBehaviour
         if (other.GetComponentInParent<Player>() == null)
             return;
 
-        if (treeRenderer != null)
-            treeRenderer.material.color = originalColor;
+        treeRenderer.material.color = originalColor;
     }
 }

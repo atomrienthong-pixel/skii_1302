@@ -2,24 +2,26 @@ using UnityEngine;
 
 public class Finish : MonoBehaviour
 {
-    [SerializeField]
-    private string finishMessage = "Finish!";
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
 
-    private bool alreadyFinished;
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (alreadyFinished)
+        Player p = other.GetComponent<Player>();
+
+        if (p == null)
             return;
 
-        Player p = other.GetComponentInParent<Player>();
-
-        if (p == null || p.IsDead)
-            return;
-
-        alreadyFinished = true;
-
-        if (UIManager.Instance != null)
-            UIManager.Instance.ShowGameOver(finishMessage);
+        if (UIManger.instance != null)
+            UIManger.instance.ShowNotiText("Finish!");
     }
 }

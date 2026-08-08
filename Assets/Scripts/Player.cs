@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class Player : MonoBehaviour
 {
     [SerializeField]
@@ -9,15 +9,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Rigidbody rb;
 
-    private InputAction moveAction;
+    private InputAction moveActopn;
     private Vector2 moveValue;
 
     [SerializeField]
     private int point;
     public int Point { get { return point; } set { point = value; } }
-
-    [SerializeField]
-    private int maxHp = 100;
 
     [SerializeField]
     private int hp;
@@ -33,9 +30,8 @@ public class Player : MonoBehaviour
             if (isDead)
                 return;
 
-            int newHp = Mathf.Clamp(value, 0, maxHp);
-            int damage = hp - newHp;
-            hp = newHp;
+            int damage = hp - value;
+            hp = Mathf.Max(0, value);
 
             if (UIManager.Instance != null)
             {
@@ -49,49 +45,34 @@ public class Player : MonoBehaviour
                 Die();
         }
     }
-
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (rb == null)
-            rb = GetComponent<Rigidbody>();
-
-        moveAction = InputSystem.actions != null ? InputSystem.actions.FindAction("Move") : null;
-
-        if (moveAction == null)
-            Debug.LogError("Player: หา InputAction ชื่อ \"Move\" ไม่เจอ ผู้เล่นจะบังคับไม่ได้", this);
-
-        hp = Mathf.Clamp(hp, 0, maxHp);
+        moveActopn = InputSystem.actions.FindAction("Move");
+        rb = GetComponent<Rigidbody>();
 
         if (UIManager.Instance != null)
             UIManager.Instance.ShowHP(hp);
     }
 
-    // อ่าน input ที่นี่ (ทุกเฟรม) แต่ไม่ยุ่งกับฟิสิกส์
+    // Update is called once per frame
     void Update()
-    {
-        if (isDead || moveAction == null)
-        {
-            moveValue = Vector2.zero;
-            return;
-        }
-
-        moveValue = moveAction.ReadValue<Vector2>();
-    }
-
-    // ออกแรงที่นี่ เพราะ FixedUpdate เดินตามรอบฟิสิกส์ ไม่ผันตาม framerate
-    void FixedUpdate()
-    {
-        if (isDead || rb == null)
-            return;
-
-        rb.AddForce(moveValue.x * forcePower * Vector3.right);
-    }
-
-    private void Die()
     {
         if (isDead)
             return;
 
+        MoveLeftOrRight();
+    }
+
+    private void MoveLeftOrRight()
+    {
+        moveValue = moveActopn.ReadValue<Vector2>();
+        rb.AddForce(moveValue.x * Vector3.right * forcePower);
+    }
+
+    // เลือดหมด: หยุดตัวผู้เล่นแล้วให้ UI เปิดจอ Restart
+    private void Die()
+    {
         isDead = true;
 
         if (rb != null)
@@ -100,7 +81,7 @@ public class Player : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
 
-        if (UIManager.Instance != null)
-            UIManager.Instance.ShowGameOver("Game Over");
+        if (UIManger.instance != null)
+            UIManger.instance.ShowGameOver("Game Over");
     }
 }
