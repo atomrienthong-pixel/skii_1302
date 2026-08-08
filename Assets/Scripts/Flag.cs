@@ -2,15 +2,24 @@ using UnityEngine;
 
 public class Flag : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private int point = 10;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        Player player = other.GetComponentInParent<Player>();
+
+        if (player == null || player.IsDead)
+            return;
+
+        player.Point += point;
+
+        if (UIManger.instance != null)
+        {
+            UIManger.instance.ShowPoint(player.Point);
+            UIManger.instance.ShowNotiText($"Flag +{point}");
+        }
+
+        Destroy(gameObject);
     }
 }

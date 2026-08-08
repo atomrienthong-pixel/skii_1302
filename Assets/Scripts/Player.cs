@@ -53,6 +53,9 @@ public class Player : MonoBehaviour
 
         if (UIManager.Instance != null)
             UIManager.Instance.ShowHP(hp);
+
+        if (UIManger.instance != null)
+            UIManger.instance.ShowPoint(point);
     }
 
     // Update is called once per frame
