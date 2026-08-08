@@ -51,7 +51,8 @@ public class TreeObstacle : MonoBehaviour
 
         treeRenderer.material.color = hitColor;
         player.HP -= damage;
-        UIManger.is.ShowNotiText($"Hurt-15\n")
+        if (UIManger.instance != null)
+            UIManger.instance.ShowNotiText($"Hurt -{damage}");
     }
 
     private void HandleExit(GameObject other)

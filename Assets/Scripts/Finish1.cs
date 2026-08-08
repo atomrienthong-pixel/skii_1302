@@ -21,6 +21,7 @@ public class Finish : MonoBehaviour
         if (p == null)
             return;
 
-        UIManager.Instance.ShowNoticText
+        if (UIManger.instance != null)
+            UIManger.instance.ShowNotiText("Finish!");
     }
 }
