@@ -12,16 +12,17 @@ public class TreeObstacle : MonoBehaviour
     private Renderer treeRenderer;
 
     private Color originalColor;
+    private bool used;
 
     void Start()
     {
         if (treeRenderer == null)
             treeRenderer = GetComponentInChildren<Renderer>();
 
-        originalColor = treeRenderer.material.color;
+        if (treeRenderer != null)
+            originalColor = treeRenderer.material.color;
     }
 
-    // ชนแบบ collider ปกติ (Is Trigger ปิด)
     private void OnCollisionEnter(Collision collision)
     {
         HandleEnter(collision.gameObject);
@@ -32,7 +33,6 @@ public class TreeObstacle : MonoBehaviour
         HandleExit(collision.gameObject);
     }
 
-    // เผื่อกรณีเปลี่ยน collider เป็น Is Trigger
     private void OnTriggerEnter(Collider other)
     {
         HandleEnter(other.gameObject);
@@ -45,14 +45,23 @@ public class TreeObstacle : MonoBehaviour
 
     private void HandleEnter(GameObject other)
     {
-        Player player = other.GetComponentInParent<Player>();
-        if (player == null)
+        if (used)
             return;
 
-        treeRenderer.material.color = hitColor;
+        Player player = other.GetComponentInParent<Player>();
+
+        if (player == null || player.IsDead || player.IsFinished)
+            return;
+
+        used = true;
+
+        if (treeRenderer != null)
+            treeRenderer.material.color = hitColor;
+
         player.HP -= damage;
-        if (UIManger.instance != null)
-            UIManger.instance.ShowNotiText($"Hurt -{damage}");
+
+        if (UIManager.instance != null)
+            UIManager.instance.ShowNotiText("Hurt -" + damage);
     }
 
     private void HandleExit(GameObject other)
@@ -60,6 +69,7 @@ public class TreeObstacle : MonoBehaviour
         if (other.GetComponentInParent<Player>() == null)
             return;
 
-        treeRenderer.material.color = originalColor;
+        if (treeRenderer != null)
+            treeRenderer.material.color = originalColor;
     }
 }

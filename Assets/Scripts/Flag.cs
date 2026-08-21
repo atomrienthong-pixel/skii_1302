@@ -5,20 +5,23 @@ public class Flag : MonoBehaviour
     [SerializeField]
     private int point = 10;
 
+    private bool taken;
+
     private void OnTriggerEnter(Collider other)
     {
-        Player player = other.GetComponentInParent<Player>();
-
-        if (player == null || player.IsDead)
+        if (taken)
             return;
 
+        Player player = other.GetComponentInParent<Player>();
+
+        if (player == null || player.IsDead || player.IsFinished)
+            return;
+
+        taken = true;
         player.Point += point;
 
-        if (UIManger.instance != null)
-        {
-            UIManger.instance.ShowPoint(player.Point);
-            UIManger.instance.ShowNotiText($"Flag +{point}");
-        }
+        if (UIManager.instance != null)
+            UIManager.instance.ShowNotiText("Flag +" + point);
 
         Destroy(gameObject);
     }

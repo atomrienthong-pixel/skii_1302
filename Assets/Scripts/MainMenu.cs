@@ -1,13 +1,18 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class MainMenu : MonoBehaviour
 {
-  public void StartGame()
+    [SerializeField]
+    private string gameSceneName = "Scene01";
+
+    public void StartGame()
     {
-        SceneManager.LoadScene("Scene01");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(gameSceneName);
     }
 
-   public void Exit()
+    public void Exit()
     {
         Application.Quit();
     }

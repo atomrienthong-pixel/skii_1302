@@ -1120,6 +1120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 432cf6d25e3241d438069762e89d021c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
+  gameSceneName: Scene01
 --- !u!4 &1188759031
 Transform:
   m_ObjectHideFlags: 0
@@ -1467,6 +1468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 432cf6d25e3241d438069762e89d021c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
+  gameSceneName: Scene01
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
