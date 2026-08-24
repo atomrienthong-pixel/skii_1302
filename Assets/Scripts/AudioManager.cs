@@ -13,8 +13,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip musicClip;
 
-    [SerializeField]
-    private AudioClip buttonClip;
 
     [SerializeField]
     private AudioClip coinClip;
@@ -85,10 +83,6 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip, sfxVolume);
     }
 
-    public void PlayButton()
-    {
-        PlaySfx(buttonClip);
-    }
 
     public void PlayCoin()
     {
