@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float forcePower = 20f;
+    private float forcePower = 900f;
 
     [SerializeField]
     private int point;
