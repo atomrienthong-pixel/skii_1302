@@ -100,6 +100,9 @@ public class Player : MonoBehaviour
         isDead = true;
         Stop();
 
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlayGameOver();
+
         if (UIManager.instance != null)
             UIManager.instance.ShowGameOver("Game Over\nCoin: " + point);
     }
@@ -111,6 +114,9 @@ public class Player : MonoBehaviour
 
         isFinished = true;
         Stop();
+
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlayFinish();
 
         if (UIManager.instance != null)
             UIManager.instance.ShowGameOver("Finish!\nCoin: " + point + "   HP: " + hp);

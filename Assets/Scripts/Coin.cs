@@ -38,6 +38,9 @@ public class Coin : MonoBehaviour
         collected = true;
         player.Point += coinValue;
 
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlayCoin();
+
         if (UIManager.instance != null)
             UIManager.instance.ShowNotiText("Coin +" + coinValue);
 

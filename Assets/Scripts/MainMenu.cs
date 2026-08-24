@@ -8,6 +8,9 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlayButton();
+
         Time.timeScale = 1f;
         SceneManager.LoadScene(gameSceneName);
     }

@@ -60,6 +60,9 @@ public class TreeObstacle : MonoBehaviour
 
         player.HP -= damage;
 
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlayHit();
+
         if (UIManager.instance != null)
             UIManager.instance.ShowNotiText("Hurt -" + damage);
     }

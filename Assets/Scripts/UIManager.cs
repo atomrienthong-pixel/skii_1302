@@ -118,6 +118,9 @@ public class UIManager : MonoBehaviour
 
     public void Restart()
     {
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlayButton();
+
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
